@@ -1,0 +1,22 @@
+export const colors = [
+    { value: "berry_red", name: "Berry Red", hex: "#b8255f", code_name: "berry_red" },
+    { value: "red", name: "Red", hex: "#db3f35", code_name: "red" },
+    { value: "orange", name: "Orange", hex: "#ff9933", code_name: "orange" },
+    { value: "yellow", name: "Yellow", hex: "#f9d000", code_name: "yellow" },
+    { value: "olive_green", name: "Olive Green", hex: "#afb83b", code_name: "olive_green" },
+    { value: "lime_green", name: "Lime Green", hex: "#7ecc48", code_name: "lime_green" },
+    { value: "green", name: "Green", hex: "#289438", code_name: "green" },
+    { value: "mint_green", name: "Mint Green", hex: "#6accbc", code_name: "mint_green" },
+    { value: "teal", name: "Teal", hex: "#138fad", code_name: "teal" },
+    { value: "sky_blue", name: "Sky Blue", hex: "#17a9f5", code_name: "sky_blue" },
+    { value: "light_blue", name: "Light Blue", hex: "#95c3ea", code_name: "light_blue" },
+    { value: "blue", name: "Blue", hex: "#3f73fe", code_name: "blue" },
+    { value: "grape", name: "Grape", hex: "#884dff", code_name: "grape" },
+    { value: "violet", name: "Violet", hex: "#af38eb", code_name: "violet" },
+    { value: "lavender", name: "Lavender", hex: "#eb96eb", code_name: "lavender" },
+    { value: "magenta", name: "Magenta", hex: "#e05194", code_name: "magenta" },
+    { value: "salmon", name: "Salmon", hex: "#ff8d85", code_name: "salmon" },
+    { value: "charcoal", name: "Charcoal", hex: "#808080", code_name: "charcoal" },
+    { value: "grey", name: "Grey", hex: "#b8b8b8", code_name: "grey" },
+    { value: "taupe", name: "Taupe", hex: "#ccac93", code_name: "taupe" }
+];
