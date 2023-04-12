@@ -1,20 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
-import { useGetLabelsQuery, useUpdateLabelMutation } from './labelsApiSlice';
+import React from 'react';
+import { useGetLabelsQuery } from './labelsApiSlice';
 import {
-    Stack,
-    FormControl,
-    FormLabel,
-    Switch,
-    Input,
-    Spacer,
-    Button,
-    Divider,
-    Text,
     Spinner
 } from '@chakra-ui/react';
-import DropdownColor from '../../../components/DropdownColor';
-import FormEdit from './Label.FormEdit';
+import LabelFormEdit from './Label.FormEdit';
 const LabelEdit = props => {
 
     const { initRef, onClose, labelId } = props;
@@ -29,7 +18,7 @@ const LabelEdit = props => {
     )
     if (!label) return <Spinner />
 
-    const content = <FormEdit label={label} initRef={initRef} onClose={onClose} />
+    const content = <LabelFormEdit label={label} initRef={initRef} onClose={onClose} />
     return content
 
     // const [name, setName] = useState('');

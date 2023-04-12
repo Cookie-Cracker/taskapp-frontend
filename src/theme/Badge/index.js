@@ -4,7 +4,9 @@ import { mode } from "@chakra-ui/theme-tools"
 export const Badge = {
     Badge: {
         baseStyle: {
-            fontWeight: "sm",
+            color: 'brand.text',
+            fontWeight: 'medium',
+            fontSize: 'xs'
         },
         variants: {
             sidebar: (props) => ({

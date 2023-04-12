@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
-import { useGetLabelsQuery, useUpdateLabelMutation } from './labelsApiSlice';
 import {
     Stack,
     FormControl,
@@ -13,62 +11,63 @@ import {
     Text
 } from '@chakra-ui/react';
 import DropdownColor from '../../../components/DropdownColor';
-const LabelFormEdit = props => {
-
-    const { initRef, onClose, label } = props;
-    const navigate = useNavigate()
+import { useAddProjectMutation, useUpdateProjectMutation } from './projectsApiSlice';
+import { useNavigate } from 'react-router-dom'
 
 
-
-
-    const [name, setName] = useState(label.name);
-    const [color, setColor] = useState(label.color);
-    const [isFavorite, setIsFavorite] = useState(label.isFavorite);
+const ProjectFormEdit = props => {
+    const { initRef, onClose, project } = props;
+    const [name, setName] = useState(project.name);
+    const [color, setColor] = useState(project.color);
+    const [isFavorite, setIsFavorite] = useState(project.isFavorite);
     const [apiError, setApiError] = useState(null);
+
+
     const [nameError, setNameError] = useState(false)
-
-
     const handleNameChange = e => setName(e.target.value);
     const handleOnColorChange = e => setName(e.target.value);
     const handleIsfavoriteChange = e => setIsFavorite(e.target.checked);
     let canSave = [name].every(Boolean);
-    const [updateLabel, { isLoading, isSuccess, isError, error }] = useUpdateLabelMutation()
+    const navigate = useNavigate()
 
-
+    // const [addProject, { isLoading, isSuccess, isError, error }] = useAddProjectMutation()
+    const [updateProject, { isLoading, isSuccess, isError, error }] = useUpdateProjectMutation()
     useEffect(() => {
         if (isSuccess) {
             onClose()
-        }
-    }, [isSuccess, onClose]);
 
-    const handleSave = async (e) => {
-        e.preventDefault()
-        if (!name) {
-            setNameError(true)
+            // navigate('/app/projects')
         }
+
+    }, [isSuccess, navigate])
+
+
+    const handleSubmit = async e => {
+        e.preventDefault()
+        if (!name)
+            setNameError(true)
         if (name) {
             try {
-                // const result = await addLabel({ name, color, isFavorite }).unwrap()
-                const result = await updateLabel({ labelId: label.id, name, color, isFavorite }).unwrap()
-                alert('All good')
-
+                // const newProject = await addProject({ name, color, isFavorite }).unwrap()
+                await updateProject({ projectId: project.id, name, color, isFavorite }).unwrap()
             } catch (error) {
                 if (error?.data) {
-                    console.log('err', error)
-                    setApiError(error.data.error)
+                    setApiError(error.data.message)
                 }
             }
         }
-
-
     };
+
+
     return (
         <>
-
-            <form onSubmit={handleSave}>
+            <pre>{isFavorite.toString()}</pre>
+            <pre>{color.toString()}</pre>
+            <pre>{name.toString()}</pre>
+            <form onSubmit={handleSubmit}>
                 <Stack spacing={6} p={2}>
                     <FormControl isInvalid={nameError}>
-                        <FormLabel>Label Name:</FormLabel>
+                        <FormLabel>Project Name</FormLabel>
                         <Input
                             name="name"
                             value={name}
@@ -105,7 +104,7 @@ const LabelFormEdit = props => {
                         <Button onClick={onClose} variant={'form'}>
                             Cancel
                         </Button>
-                        <Button onClick={handleSave} variant={'form'} isDisabled={!canSave}>
+                        <Button onClick={handleSubmit} variant={'form'} isDisabled={!canSave}>
                             Save
                         </Button>
                     </Stack>
@@ -113,6 +112,6 @@ const LabelFormEdit = props => {
             </form>
         </>
     );
-};
+}
 
-export default LabelFormEdit;
+export default ProjectFormEdit

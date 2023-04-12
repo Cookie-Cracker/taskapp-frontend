@@ -16,7 +16,9 @@ import { getColor } from '../../helpers/color_matcher';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { Link as ChackraLink } from 'react-router-dom';
 
-const ProjectItem = ({ project }) => {
+const ProjectItem = (props) => {
+
+  const { project } = props
   const content = (
     <Box
       display="flex"
@@ -57,7 +59,7 @@ const ProjectItem = ({ project }) => {
           </Tooltip>
 
           <MenuList>
-            <MenuItem onClick={() => { }}>Edit Project</MenuItem>
+            <MenuItem >Edit Project</MenuItem>
             <MenuDivider />
             <MenuItem> Archive Project</MenuItem>
             <MenuItem>Delete Project</MenuItem>

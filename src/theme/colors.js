@@ -13,6 +13,7 @@ export const colors = {
             700: "#92541B",
             800: "#643A0E",
             900: "#3C2002",
+            menu: "#EEEEEE"
         },
         dark: {
             50: "#3C2002",
@@ -25,7 +26,11 @@ export const colors = {
             700: "#FFD0B3",
             800: "#FFEACC",
             900: "#FFF5E6",
+            menu: "#444444"
         },
+        text: '#717171'
+
+
     },
 
     nav: {
