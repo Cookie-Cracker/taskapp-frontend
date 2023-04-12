@@ -42,11 +42,11 @@ const SidebarNav = ({ collapse }) => {
           display={{ base: 'none', md: 'block' }}
           transition="width 0.5s ease-in-out"
         >
-          <Box pt={4}>
-            <List w="full" my={8}></List>
+          <Box >
+            <List w="full" ></List>
           </Box>
           <Box pt={4}>
-            <List w="full" my={8}>
+            <List w="full" >
               <InboxSection />
               <MenuSectionHeader name={'Projects'} />
               <UserProjectsSection />

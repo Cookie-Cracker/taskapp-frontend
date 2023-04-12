@@ -28,9 +28,9 @@ const MenuSectionHeader = ({ name }) => {
       >
         <Heading
           fontWeight="medium"
-          textTransform="uppercase"
-          fontSize="sm"
+          fontSize="md"
           my={6}
+          pl={2}
         >
           <Text>{name}</Text>
         </Heading>

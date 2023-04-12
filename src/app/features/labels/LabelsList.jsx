@@ -34,13 +34,6 @@ function LabelsList() {
   const { isOpen: isOpenEdit, onOpen: onOpenEdit, onClose: onCloseEdit } = useDisclosure();
   const [labelId, setLabelId] = useState([]);
 
-  // const fechtLabels = async () => {
-  //   const labels = await getLabels();
-  //   setLabels(labels);
-  // };
-  // useEffect(() => {
-  //   fechtLabels();
-  // }, []);
   const { data: labels, isLoading, isSuccess, isError, error } = useGetLabelsQuery()
   const handleEdit = (labelId) => {
     onOpenEdit();
@@ -52,12 +45,6 @@ function LabelsList() {
   } else if (isSuccess) {
     const { ids, entities } = labels
     labelsList = (
-
-      // <List>
-      //   {ids.map((label, index) => (
-      //     <p>{entities[label].name}</p>
-      //   ))}
-      // </List>
 
       <List>
         {ids.map((labelId, index) => (
