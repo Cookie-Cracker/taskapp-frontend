@@ -44,7 +44,7 @@ const TodoistTaskItem = ({ task, handleComplete }) => {
               />
             </Tooltip>
 
-            <Text fontSize={'small'}>{task.content}</Text>
+            <Text fontSize={'small'}>{task.name}</Text>
           </Box>
 
           {/* ACTIONS  START*/}

@@ -15,7 +15,8 @@ import { FiCheck, FiEdit3, FiMoreHorizontal } from 'react-icons/fi';
 import TaskLabels from './TaskLabels';
 import DraggableHandle from './DraggableHandle';
 
-const TaskItem = ({ task, handleComplete }) => {
+const TaskItem = props => {
+  const { task, handleComplete } = props;
   return (
     <>
       <Box
@@ -40,11 +41,12 @@ const TaskItem = ({ task, handleComplete }) => {
                     opacity: 1,
                   },
                 }}
-                onClick={() => handleComplete(task.id)}
+                // onClick={() => handleComplete(task.id)}
               />
             </Tooltip>
 
-            <Text fontSize={'small'}>{task.content}</Text>
+            {/* <Text fontSize={'small'}>{task.name}</Text> */}
+            <Text fontSize={'small'}>{task?.name}</Text>
             {/* <Text fontSize={'small'}>{task.title}</Text> */}
           </Box>
 
@@ -72,9 +74,9 @@ const TaskItem = ({ task, handleComplete }) => {
           justifyContent={'space-between'}
           color={'gray.500'}
         >
-          <TaskLabels labels={task.labels} />
-
-          <Text fontSize="xs">{task.order}</Text>
+          {task?.labels && task.labels.length > 0 && (
+            <TaskLabels labels={task.labels} />
+          )}
         </Box>
         <Divider py={1} />
       </Box>
