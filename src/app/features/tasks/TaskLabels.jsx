@@ -3,6 +3,7 @@ import React from 'react';
 import { FiTag } from 'react-icons/fi';
 
 const TaskLabels = ({ labels }) => {
+  console.log('label', labels);
   return (
     <HStack pl={30} spacing={4}>
       {labels.map((label, index) => (
@@ -14,9 +15,7 @@ const TaskLabels = ({ labels }) => {
           colorScheme={label.color}
         >
           <TagLeftIcon as={FiTag} />
-          {/* <TagLabel>{label.label}</TagLabel> */}
           <TagLabel>{label}</TagLabel>
-          {/* <TagLabel>{label.label}</TagLabel> */}
         </Tag>
       ))}
     </HStack>

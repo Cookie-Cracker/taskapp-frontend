@@ -4,9 +4,10 @@ import { Box } from '@chakra-ui/react';
 import TaskItem from './TaskItem';
 import TodoistTaskItem from './TodoistTaskItem';
 
-const TasksList = ({ list }) => {
-  const [tasks, setTasks] = useState(list);
+const TasksList = props => {
+  const { list, entities } = props;
 
+  const [tasks, setTasks] = useState(list);
   const handleOnDragEnd = result => {
     if (!result.destination) return;
     const reorderedList = reorderTasks(
@@ -19,19 +20,6 @@ const TasksList = ({ list }) => {
   useEffect(() => {
     setTasks(list);
   }, [list]);
-  const handleCompleteTask = id => {
-    completeTask(id);
-  };
-  // task must have a completed field instead, here I remove from the list
-  const completeTask = id => {
-    const updatedTasks = tasks.filter(task => task.id !== id);
-    let reordered = updatedTasks.sort((a, b) => a.id - b.id);
-    reordered = reordered.map((task, index) => {
-      task.order = index;
-      return task;
-    });
-    setTasks(reordered);
-  };
 
   const getTaskStyle = (isDragging, draggableStyle) => ({
     boxShadow: isDragging ? 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' : undefined,
@@ -58,7 +46,7 @@ const TasksList = ({ list }) => {
             <section {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((task, index) => (
                 //draggableId needs to be a String
-                <Draggable key={task.id} draggableId={task.id} index={index}>
+                <Draggable key={task} draggableId={task} index={index}>
                   {(provided, snapshot) => (
                     <Box
                       ref={provided.innerRef}
@@ -70,8 +58,8 @@ const TasksList = ({ list }) => {
                       )}
                     >
                       <TaskItem
-                        task={task}
-                        handleComplete={handleCompleteTask}
+                        task={entities[task]}
+                        // handleComplete={handleCompleteTask}
                       />
                       {/* <TodoistTaskItem handleComplete={handleCompleteTask} /> */}
                     </Box>

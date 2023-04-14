@@ -26,7 +26,7 @@ const _baseQueryWithReauth = async (args, api, extraOptions) => {
     // console.log('extraOptions', extraOptions) //custom like {shout: true}
     let result = await _baseQuery(args, api, extraOptions)
     // if (result?.error?.originalStatus === 403) {
-    if (result?.error?.status === 401) {
+    if (result?.error?.status === 401 || result?.error?.status === 403) {
         // console.log('sending refresh token')
         // console.log('result', result)
         const refreshResult = await _baseQuery('/auth/refresh_token', api, extraOptions)
@@ -48,7 +48,7 @@ const _baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
     // baseQuery: _baseQuery,
     baseQuery: _baseQueryWithReauth,
-    tagTypes: ['Project, Label, Task'],
+    tagTypes: ['Project, ProjectStats Label, Task'],
     refetchOnReconnect: true,
     refetchOnMount: true,
     endpoints: builder => ({})
