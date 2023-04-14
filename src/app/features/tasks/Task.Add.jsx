@@ -27,7 +27,6 @@ const TaskAdd = props => {
 
   const handleNameChange = e => setName(e.target.value);
   const handleDescriptionChange = e => setDescription(e.target.value);
-  // const handleProjectIdChange = e => setProjectId(e.target.value);
   const navigate = useNavigate();
   const [addTask, { isLoading, isSuccess, isError, error }] =
     useAddTaskMutation();

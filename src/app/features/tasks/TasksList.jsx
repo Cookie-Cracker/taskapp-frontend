@@ -21,20 +21,6 @@ const TasksList = props => {
     setTasks(list);
   }, [list]);
 
-  // const handleCompleteTask = id => {
-  //   completeTask(id);
-  // };
-  // task must have a completed field instead, here I remove from the list
-  // const completeTask = id => {
-  //   const updatedTasks = tasks.filter(task => task.id !== id);
-  //   let reordered = updatedTasks.sort((a, b) => a.id - b.id);
-  //   reordered = reordered.map((task, index) => {
-  //     task.order = index;
-  //     return task;
-  //   });
-  //   setTasks(reordered);
-  // };
-
   const getTaskStyle = (isDragging, draggableStyle) => ({
     boxShadow: isDragging ? 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' : undefined,
 

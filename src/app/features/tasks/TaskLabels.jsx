@@ -15,9 +15,7 @@ const TaskLabels = ({ labels }) => {
           colorScheme={label.color}
         >
           <TagLeftIcon as={FiTag} />
-          {/* <TagLabel>{label.label}</TagLabel> */}
           <TagLabel>{label}</TagLabel>
-          {/* <TagLabel>{label.label}</TagLabel> */}
         </Tag>
       ))}
     </HStack>

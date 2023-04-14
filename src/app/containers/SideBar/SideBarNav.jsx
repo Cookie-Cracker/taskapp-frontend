@@ -26,8 +26,6 @@ const SidebarNav = ({ collapse }) => {
   //   fechtProjects();
   // }, []);
 
-
-
   const bg = useColorModeValue(colors.nav.light, colors.nav.dark);
   const [isSmallerThan768] = useMediaQuery('(max-width: 768px)');
   return (
@@ -37,16 +35,14 @@ const SidebarNav = ({ collapse }) => {
           bg={bg}
           h="94vh"
           width={collapse || isSmallerThan768 ? '0px' : '300px'}
-          // display={collapse  ? 'none' : 'block'}
-          // display={collapse ? { base: 'none', md: 'block' } : 'block'}
           display={{ base: 'none', md: 'block' }}
           transition="width 0.5s ease-in-out"
         >
-          <Box >
-            <List w="full" ></List>
+          <Box>
+            <List w="full"></List>
           </Box>
           <Box pt={4}>
-            <List w="full" >
+            <List w="full">
               <InboxSection />
               <MenuSectionHeader name={'Projects'} />
               <UserProjectsSection />
