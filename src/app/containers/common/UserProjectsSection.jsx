@@ -5,10 +5,14 @@ import {
   useGetProjectsQuery,
   useGetProjectsTaskCountQuery,
 } from '../../features/projects/projectsApiSlice';
-const UserProjectsSection = () => {
+import { useNavigate } from 'react-router-dom';
+
+const UserProjectsSection = props => {
   // const { data: projects, isLoading, isSuccess, isError, error } = useGetProjectsQuery('projectsList', {
   //   pollingInterval: 150000,
   // })
+  const navigate = useNavigate();
+  const { onClose } = props;
   const {
     data: projects,
     isLoading,
@@ -17,6 +21,8 @@ const UserProjectsSection = () => {
     error,
   } = useGetProjectsTaskCountQuery('projectsStatsList', {
     pollingInterval: 50000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
   });
   let content;
 
@@ -26,12 +32,15 @@ const UserProjectsSection = () => {
     const { ids, entities } = projects;
     content = ids.map((id, index) => (
       <ListItem key={index}>
-        <MenuProjectItem project={entities[id]} />
+        <MenuProjectItem project={entities[id]} onClose={onClose} />
       </ListItem>
     ));
   } else if (isError) {
-    console.log('error', error);
-    content = <p>error</p>;
+    console.log('error from  taskstats', error);
+    if (error.status === 403) {
+      navigate('/auth/login');
+    }
+    content = <p>{error.data?.error}</p>;
   }
   return content;
 };

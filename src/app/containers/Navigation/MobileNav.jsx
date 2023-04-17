@@ -11,29 +11,37 @@ import {
   Stack,
   List,
   ListItem,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { NAV_LINKS } from '../common/Navlinks';
 import MenuNavItem from '../common/MenuINavItem';
+import InboxSection from '../common/InboxSection';
+import MenuSectionHeader from '../common/MenuSectionHeader';
+import UserProjectsSection from '../common/UserProjectsSection';
+import { colors } from '../../../theme/colors';
 
 const MobileNav = ({ onClose, isOpen }) => {
+  const bg = useColorModeValue(colors.white, colors.black);
   return (
-    <Drawer onClose={onClose} isOpen={isOpen} placement={'left'} size={'xs'}>
+    <Drawer onClose={onClose} isOpen={isOpen} placement={'left'}>
       <DrawerOverlay />
-
-      <DrawerContent>
+      <DrawerContent bg={bg}>
         <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth="1px">Basic Drawer</DrawerHeader>
+
         <DrawerBody>
           <Stack>
             <List w="full" my={8}>
-              {NAV_LINKS.map((item, index) => (
+              {/* {NAV_LINKS.map((item, index) => (
                 <>
                   <ListItem key={`${index}${item.label}`}>
                     <MenuNavItem item={item} />
                   </ListItem>
                 </>
-              ))}
+              ))} */}
+              <InboxSection />
+              <MenuSectionHeader name={'Projects'} />
+              <UserProjectsSection onClose={onClose} />
             </List>
           </Stack>
         </DrawerBody>

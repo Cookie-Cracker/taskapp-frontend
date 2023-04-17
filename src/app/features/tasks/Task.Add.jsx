@@ -30,7 +30,6 @@ const TaskAdd = props => {
   const navigate = useNavigate();
   const [addTask, { isLoading, isSuccess, isError, error }] =
     useAddTaskMutation();
-  console.log('projectForomasasas', project._id);
   useEffect(() => {
     if (isSuccess) {
       onClose();

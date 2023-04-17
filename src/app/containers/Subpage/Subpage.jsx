@@ -1,32 +1,6 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import {
-  Box,
-  HStack,
-  Heading,
-  Tooltip,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalFooter,
-  Button,
-  Divider,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  Select,
-  Stack,
-  Switch,
-} from '@chakra-ui/react';
-import { FiList, FiMenu, FiMoreHorizontal } from 'react-icons/fi';
+import { useDisclosure } from '@chakra-ui/react';
 import SubpageHeader from './SubpageHeader';
 
 const Subpage = props => {
