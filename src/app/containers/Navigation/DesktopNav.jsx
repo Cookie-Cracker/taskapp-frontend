@@ -1,4 +1,4 @@
-import { useEffect, } from 'react';
+import { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -26,7 +26,7 @@ import {
   FiPlus,
   FiSettings,
   FiX,
-  FiLogOut
+  FiLogOut,
 } from 'react-icons/fi';
 
 import { ColorModeSwitcher } from '../../../components/ColorModeSwitcher';
@@ -36,16 +36,27 @@ import TaskAdd from '../../features/tasks/Task.Add';
 import useAuth from '../../hooks/useAuth';
 import { usePostLogoutMutation } from '../../features/auth/authApiSlice';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCurrenProject } from '../../features/projects/projectSlice';
+import { useGetProjectsQuery } from '../../features/projects/projectsApiSlice';
 
 const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [postLogout, { isSuccess, isError, error }] = usePostLogoutMutation()
+  const [postLogout, { isSuccess, isError, error }] = usePostLogoutMutation();
 
   useEffect(() => {
-    if (isSuccess) navigate('/')
+    if (isSuccess) navigate('/');
+  }, [isSuccess, navigate]);
 
-  }, [isSuccess, navigate])
+  const pr = useSelector(selectCurrenProject);
+
+  const { project } = useGetProjectsQuery('projectList', {
+    selectFromResult: ({ data }) => ({
+      project: data?.entities[pr],
+    }),
+  });
+  console.log('pr', pr);
 
   const {
     isOpen: isAddTaskOpen,
@@ -53,7 +64,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
     onClose: onCloseAddTask,
   } = useDisclosure();
 
-  const { nickname, email } = useAuth()
+  const { nickname, email } = useAuth();
 
   const taskModalForm = (
     <ModalForForms
@@ -61,7 +72,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
       isOpen={isAddTaskOpen}
       onClose={onCloseAddTask}
     >
-      <TaskAdd onClose={onCloseAddTask} />
+      <TaskAdd onClose={onCloseAddTask} project={project} />
     </ModalForForms>
   );
 
@@ -86,7 +97,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
             <IconButton icon={<Icon as={FiHome} />} variant={'nav'} />
           </Flex>
           <Spacer />
-          <Flex>
+          <Flex as={HStack} spacing={2}>
             <IconButton
               icon={<Icon as={FiPlus} />}
               variant={'nav'}
@@ -95,15 +106,13 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
             <ColorModeSwitcher variant={'nav'} />
 
             <Menu>
-              <MenuButton>
+              <MenuButton pr={2}>
                 <Avatar name="A F" size={'sm'} />
               </MenuButton>
               <MenuList>
                 <MenuItem>
                   <VStack alignItems={'start'}>
-                    {email &&
-
-
+                    {email && (
                       <HStack>
                         <Avatar name={nickname} size={'md'} />
                         <Box as={VStack} alignItems={'start'} pl={2}>
@@ -111,7 +120,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
                           <Text fontSize={'sm'}> {email}</Text>
                         </Box>
                       </HStack>
-                    }
+                    )}
                     <Box alignItems="start" as={HStack}>
                       <FiSettings />
                       <Heading
@@ -127,20 +136,12 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
                 </MenuItem>
                 <Divider />
 
-                <MenuItem icon={<FiCalendar />}>
-                  Brand New tab
-                </MenuItem>
-                <MenuItem icon={<FiCalendar />}>
-                  Brand New tab
-                </MenuItem>
-                <MenuItem icon={<FiCalendar />}>
-                  Brand New tab
-                </MenuItem>
-                <MenuItem icon={<FiCalendar />}>
-                  Brand New tab
-                </MenuItem>
+                <MenuItem icon={<FiCalendar />}>Brand New tab</MenuItem>
+                <MenuItem icon={<FiCalendar />}>Brand New tab</MenuItem>
+                <MenuItem icon={<FiCalendar />}>Brand New tab</MenuItem>
+                <MenuItem icon={<FiCalendar />}>Brand New tab</MenuItem>
                 <Divider />
-                <MenuItem icon={< FiLogOut />} onClick={postLogout}>
+                <MenuItem icon={<FiLogOut />} onClick={postLogout}>
                   Logout
                 </MenuItem>
 

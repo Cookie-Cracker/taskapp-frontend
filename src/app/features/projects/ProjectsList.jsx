@@ -16,6 +16,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
 import ProjectItem from './ProjectItem';
@@ -26,9 +27,12 @@ import { useGetProjectsQuery } from './projectsApiSlice';
 import { getColor } from '../../helpers/color_matcher';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { Link as ChackraLink } from 'react-router-dom';
-const ProjectsList = () => {
-  // const [projects, setProjects] = useState([]);
+import { colors } from '../../../theme/colors';
 
+const ProjectsList = () => {
+  const bg = useColorModeValue(colors.brand.light.menu, colors.brand.dark.menu);
+
+  // const [projects, setProjects] = useState([]);
   const {
     isOpen: isOpenAddForm,
     onOpen: onOpenAddForm,
@@ -41,16 +45,22 @@ const ProjectsList = () => {
   } = useDisclosure();
   const initialRef = useRef(null);
   const [projectId, setProjectId] = useState('');
-  const { data: projects, isLoading, isSuccess, isError, error } = useGetProjectsQuery('projectsList', {
+  const {
+    data: projects,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProjectsQuery('projectsList', {
     pollingInterval: 60000 * 2,
     refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
-  })
+    refetchOnMountOrArgChange: true,
+  });
   // const { data: projects, isLoading, isSuccess, isError, error } = useGetProjectsQuery()
-  const handleEdit = (projectId) => {
-    onOpenEditForm()
-    setProjectId(projectId)
-  }
+  const handleEdit = projectId => {
+    onOpenEditForm();
+    setProjectId(projectId);
+  };
 
   let projects_list;
 
@@ -74,10 +84,10 @@ const ProjectsList = () => {
   );
 
   if (isLoading) {
-    projects_list = <p>loading...</p>
+    projects_list = <p>loading...</p>;
+  } else if (isError) {
   } else if (isSuccess) {
-
-    const { ids, entities } = projects
+    const { ids, entities } = projects;
     projects_list = (
       <List>
         {ids.map(id => (
@@ -91,19 +101,22 @@ const ProjectsList = () => {
             key={entities[id]._id}
             display="flex"
             direction="row"
-            minH="40px"
+            // minH="40px"
             alignItems={'center'}
+            _hover={{ bg: bg }}
+            borderRadius={'3px'}
+            overflow={'hidden'}
             p={2}
-            _hover={{
-              '> div > svg': {
-                opacity: 1,
-              },
-              '> div': {
-                bg: 'gray.50',
-              },
-            }}
+            // _hover={{
+            //   '> div > svg': {
+            //     opacity: 1,
+            //   },
+            //   '> div': {
+            //     bg: 'gray.50',
+            //   },
+            // }}
           >
-            <Box w={'full'} py={2} borderRadius={'md'}>
+            <Box w={'full'} borderRadius={'md'}>
               <ChackraLink>
                 <HStack py={1}>
                   <Badge
@@ -118,16 +131,22 @@ const ProjectsList = () => {
                 </HStack>
               </ChackraLink>
             </Box>
-            <Box m={2}>
+            <Box>
               <Menu>
-                <Tooltip label="More Option" fontSize="md" placement="top-start">
+                <Tooltip
+                  label="More Option"
+                  fontSize="md"
+                  placement="top-start"
+                >
                   <MenuButton as={Button} variant={'menu'}>
                     <FiMoreHorizontal />
                   </MenuButton>
                 </Tooltip>
 
                 <MenuList>
-                  <MenuItem onClick={() => handleEdit(id)}>Edit Project</MenuItem>
+                  <MenuItem onClick={() => handleEdit(id)}>
+                    Edit Project
+                  </MenuItem>
                   <MenuDivider />
                   <MenuItem> Archive Project</MenuItem>
                   <MenuItem>Delete Project</MenuItem>
@@ -137,7 +156,7 @@ const ProjectsList = () => {
           </Box>
         ))}
       </List>
-    )
+    );
   }
   let content = (
     <>
@@ -156,9 +175,7 @@ const ProjectsList = () => {
           </Button>
         </HStack>
         <Divider />
-
         {projects_list}
-
       </Subpage>
 
       {addModal}

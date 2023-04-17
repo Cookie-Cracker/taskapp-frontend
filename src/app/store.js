@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice'
 import authReducer from './features/auth/authSlice'
+import projectsReducer from './features/projects/projectSlice'
 import { setupListeners } from "@reduxjs/toolkit/query"
 
 
@@ -10,6 +11,7 @@ export const store = configureStore({
         // ? 'api'
         [apiSlice.reducerPath]: apiSlice.reducer,
         auth: authReducer,
+        projects: projectsReducer
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware),
