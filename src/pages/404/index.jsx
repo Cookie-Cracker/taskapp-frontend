@@ -14,7 +14,7 @@ const Page404 = props => {
   }
 
   let content = (
-    <Flex justifyContent="center" alignItems="center" h="100vh">
+    <Flex justifyContent="center" alignItems="center" h="100vh" width={'full'}>
       <Text fontSize="4xl" fontWeight="bold">
         {statusCode || '404'}
       </Text>

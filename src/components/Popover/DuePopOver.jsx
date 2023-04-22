@@ -34,31 +34,76 @@ const dpConfig = {
 const Form = ({ firstFieldRef, onCancel, due, setDue }) => {
   const [date, setDate] = useState(due);
   useEffect(() => {
-    setDue(date);
+    if (date) {
+      setDue(date);
+    }
   }, [date, setDue]);
+  console.log('date', date);
+
+  // const handleDueDateClick = value => {
+  //   let date = new Date();
+  //   switch (value) {
+  //     case 'today':
+  //       setDate(new Date().toISOString().substring(0, 10));
+  //       break;
+  //     case 'tomorrow':
+  //       date.setDate(date.getDate() + 1);
+  //       setDate(date.toISOString().substring(0, 10));
+  //       break;
+  //     case 'this-weekend':
+  //       date.setDate(date.getDate() - date.getDay() + 6);
+  //       setDate(date.toISOString().substring(0, 10));
+  //       break;
+  //     case 'next-week':
+  //       date.setDate(date.getDate() - date.getDay() + 8);
+  //       setDate(date.toISOString().substring(0, 10));
+  //       break;
+  //     case 'no-date':
+  //       setDate(undefined);
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+  // const formatDate = date => date.toISOString().substring(0, 10);
+  // const formatDate = date => date.toISOString().substring(0, 10);
+  // const formatDate = (date, format = 'yyyy-MM-dd') => {
+  //   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  //   return date
+  //     .toLocaleDateString('en-US', options)
+  //     .replace(/(\d{4})-(\d{2})-(\d{2})/, format);
+  // };
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}-${month.toString().padStart(2, '0')}-${day
+      .toString()
+      .padStart(2, '0')}`;
+  }
 
   const handleDueDateClick = value => {
     let date = new Date();
     switch (value) {
       case 'today':
-        setDate(new Date());
+        setDate(formatDate(new Date()));
         break;
       case 'tomorrow':
         date.setDate(date.getDate() + 1);
-        setDate(date);
+        setDate(formatDate(date));
         break;
       case 'this-weekend':
         date.setDate(date.getDate() - date.getDay() + 6);
-        setDate(date);
+        setDate(formatDate(date));
         break;
       case 'next-week':
         date.setDate(date.getDate() - date.getDay() + 8);
-        setDate(date);
+        setDate(formatDate(date));
         break;
       case 'no-date':
         setDate(undefined);
         break;
-
       default:
         break;
     }

@@ -52,11 +52,13 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: 'Project', id: 'LIST' }];
       },
     }),
-    // getProjectTasks: builder.query({
-    //   query: ({ projectId }) => `/project/${projectId}`,
-    //   validateStatus: (response, result) => {
-    //     return response.status === 200 && !result.isError;
-    //   },
+    // getInboxCount: builder.query({
+    //   query: () => ({
+    //     url: '/projects/inbox',
+    //     validateStatus: (response, result) => {
+    //       return response.status === 200 && !result.isError;
+    //     },
+    //   }),
     //   transformResponse: responseData => {
     //     const loadedProjects = responseData.map(p => {
     //       p.id = p._id;

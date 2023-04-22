@@ -70,7 +70,7 @@ export const Navbar = () => {
             // fontSize={'sm'}
             // fontWeight={600}
             // variant={'outline'}
-            href={'#'}
+            href={'/auth/signup'}
           >
             Sign Up
           </Button>

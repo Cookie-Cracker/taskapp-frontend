@@ -39,12 +39,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCurrenProject } from '../../features/projects/projectSlice';
 import { useGetProjectsQuery } from '../../features/projects/projectsApiSlice';
+import { getInbox } from '../../helpers/userInbox';
 
 const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
   const navigate = useNavigate();
 
   const [postLogout, { isSuccess, isError, error }] = usePostLogoutMutation();
-
+  const inbox = getInbox();
   useEffect(() => {
     if (isSuccess) navigate('/');
   }, [isSuccess, navigate]);
@@ -56,7 +57,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
       project: data?.entities[pr],
     }),
   });
-  console.log('pr', pr);
+  // console.log('pr', pr);
 
   const {
     isOpen: isAddTaskOpen,
@@ -64,7 +65,7 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
     onClose: onCloseAddTask,
   } = useDisclosure();
 
-  const { nickname, email } = useAuth();
+  const { email } = useAuth();
 
   const taskModalForm = (
     <ModalForForms
@@ -94,7 +95,11 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
               onClick={handleSideButtonClick}
             />
 
-            <IconButton icon={<Icon as={FiHome} />} variant={'nav'} />
+            <IconButton
+              icon={<Icon as={FiHome} />}
+              variant={'nav'}
+              onClick={() => navigate(`/app/project/${inbox}`)}
+            />
           </Flex>
           <Spacer />
           <Flex as={HStack} spacing={2}>
@@ -107,16 +112,16 @@ const DesktopNav = ({ isOpen, handleSideButtonClick }) => {
 
             <Menu>
               <MenuButton pr={2}>
-                <Avatar name="A F" size={'sm'} />
+                <Avatar name={email} size={'sm'} />
               </MenuButton>
               <MenuList>
                 <MenuItem>
                   <VStack alignItems={'start'}>
                     {email && (
                       <HStack>
-                        <Avatar name={nickname} size={'md'} />
+                        <Avatar name={email} size={'md'} />
                         <Box as={VStack} alignItems={'start'} pl={2}>
-                          <Text fontWeight={'bold'}> {nickname}</Text>
+                          <Text fontWeight={'bold'}> {email}</Text>
                           <Text fontSize={'sm'}> {email}</Text>
                         </Box>
                       </HStack>

@@ -14,7 +14,7 @@ export const store = configureStore({
         projects: projectsReducer
     },
     middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
+        getDefaultMiddleware({ serializableCheck: false, }).concat(apiSlice.middleware),
     devTools: process.env.NODE_ENV !== 'production'
 
 })

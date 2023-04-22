@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getAllProjects } from '../../../services';
 import Subpage from '../../containers/Subpage/Subpage';
+import SubpageHeader from '../../containers/Subpage/SubpageHeader';
 import {
   Button,
   Divider,
@@ -32,7 +33,6 @@ import { colors } from '../../../theme/colors';
 const ProjectsList = () => {
   const bg = useColorModeValue(colors.brand.light.menu, colors.brand.dark.menu);
 
-  // const [projects, setProjects] = useState([]);
   const {
     isOpen: isOpenAddForm,
     onOpen: onOpenAddForm,
@@ -98,7 +98,8 @@ const ProjectsList = () => {
           //   isOpen={isOpenEditForm}
           // />
           <Box
-            key={entities[id]._id}
+            // key={entities[id]._id}
+            key={id}
             display="flex"
             direction="row"
             // minH="40px"
@@ -160,8 +161,8 @@ const ProjectsList = () => {
   }
   let content = (
     <>
-      <Subpage title="Projects">
-        {' '}
+      <Subpage>
+        <SubpageHeader title="Projects" projectActions />{' '}
         <HStack display={'flex'} justifyContent={'space-between'} px={4}>
           <Text>Active/Archive Switch</Text>
 

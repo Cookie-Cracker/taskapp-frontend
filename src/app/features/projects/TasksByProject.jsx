@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Subpage from '../../containers/Subpage/Subpage';
+import SubpageHeader from '../../containers/Subpage/SubpageHeader';
 import TasksList from '../tasks/TasksList';
 import { useGetProjectsQuery } from './projectsApiSlice';
 
@@ -48,7 +49,6 @@ const TasksByProject = () => {
       project: data?.entities[id],
     }),
   });
-  console.log('project', project);
 
   let addtask = showAddForm ? (
     <TaskAdd onClose={handleCancelClick} project={project} />
@@ -70,7 +70,6 @@ const TasksByProject = () => {
     content = <Spinner />;
   } else if (isSuccess && project) {
     const { ids, entities } = tasks;
-    console.log('tasks', tasks);
 
     content =
       ids.length === 0 ? (
@@ -89,7 +88,12 @@ const TasksByProject = () => {
       );
   }
 
-  return <Subpage title={project?.name}>{content}</Subpage>;
+  return (
+    <Subpage>
+      <SubpageHeader title={project?.name} />
+      {content}
+    </Subpage>
+  );
 };
 
 export default TasksByProject;

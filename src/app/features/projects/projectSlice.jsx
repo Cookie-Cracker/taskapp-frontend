@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // if no project selected default to Inbox Project
+
 const initialState = {
-  selectedProject: '641c89aab989fb74fe04dae5',
+  selectedProject: localStorage.getItem('user_inbox_id'),
 };
 
 const projectSlice = createSlice({

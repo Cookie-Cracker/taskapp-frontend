@@ -36,6 +36,7 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       // invalidateTags: [{ type: 'Task', id: 'LIST' }],
       invalidatesTags: (result, error, arg) => [
         { type: 'Task', id: arg.id },
+        { type: 'Task', id: 'STATS' },
         { type: 'Project', id: arg.id },
       ],
     }),
