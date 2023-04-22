@@ -1,15 +1,10 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { useDisclosure } from '@chakra-ui/react';
 import SubpageHeader from './SubpageHeader';
 
 const Subpage = props => {
   const { title, children } = props;
-  const {
-    isOpen: isOpenEdit,
-    onOpen: onOpenEdit,
-    onClose: onCloseEdit,
-  } = useDisclosure();
+
   const content = (
     <Flex
       as={'main'}
@@ -19,7 +14,7 @@ const Subpage = props => {
       px={{ base: '2', md: '40' }}
       mx={{ base: '2', md: '40' }}
     >
-      <SubpageHeader title={title} />
+      {/* <SubpageHeader title={title} /> */}
       {children}
     </Flex>
   );

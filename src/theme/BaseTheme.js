@@ -9,7 +9,7 @@ import { Box } from './Box'
 
 const config = {
     initialColorMode: 'dark',
-    useSystemColorMode: true,
+    useSystemColorMode: false,
 }
 
 export const BaseTheme = extendTheme({

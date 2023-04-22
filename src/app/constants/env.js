@@ -6,7 +6,9 @@ module.exports = {
     store_keys: {
         _token: 'token',
         _user_info: 'user',
-        _persist: 'persist'
+        _persist: 'persist',
+        _user_inbox_id: 'user_inbox_id'
+
     }
 
 }

@@ -26,12 +26,7 @@ const MenuSectionHeader = ({ name }) => {
           },
         }}
       >
-        <Heading
-          fontWeight="medium"
-          fontSize="md"
-          my={6}
-          pl={2}
-        >
+        <Heading fontWeight="medium" fontSize="md" my={6} pl={2}>
           <Text>{name}</Text>
         </Heading>
         <IconButton

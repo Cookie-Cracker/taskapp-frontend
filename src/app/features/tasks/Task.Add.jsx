@@ -14,20 +14,34 @@ import DueField from '../../../components/DueDate';
 import DuePopOver from '../../../components/Popover/DuePopOver';
 import DropdownProject from '../../../components/DropdownProject';
 import { useAddTaskMutation } from './taskApiSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { store_keys } from '../../constants/env';
 
 const TaskAdd = props => {
+  const location = useLocation();
+
   const { initRef, onClose, project } = props;
+  let currentProject;
+  if (
+    location.pathname === '/app/today' ||
+    location.pathname === '/app/labels'
+  ) {
+    currentProject = localStorage.getItem(store_keys._user_inbox_id);
+  } else {
+    currentProject = project._id;
+  }
+
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [due, setDue] = useState('');
-  const [projectId, setProjectId] = useState(project._id);
+  const [projectId, setProjectId] = useState(currentProject);
   const [apiError, setApiError] = useState(null);
 
   const handleNameChange = e => setName(e.target.value);
   const handleDescriptionChange = e => setDescription(e.target.value);
   const navigate = useNavigate();
+
   const [addTask, { isLoading, isSuccess, isError, error }] =
     useAddTaskMutation();
   useEffect(() => {
@@ -108,7 +122,7 @@ const TaskAdd = props => {
         <Divider />
         <Stack direction={'row'} align={'start'} justifyContent={'end'}>
           <DropdownProject
-            current_project_id={project._id}
+            current_project_id={currentProject}
             setId={setProjectId}
           />
           <Spacer />

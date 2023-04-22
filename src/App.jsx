@@ -16,6 +16,7 @@ import TasksByProject from './app/features/projects/TasksByProject';
 import RequiredAuth from './app/features/auth/RequireAuth';
 import PersistLogin from './app/features/auth/PersistLogin';
 import Page404 from './pages/404';
+import TodayTasks from './app/features/tasks/today/Today.Tasks';
 
 const App = () => {
   return (
@@ -35,7 +36,9 @@ const App = () => {
               <Route path="project">
                 <Route path=":id" element={<TasksByProject />} />
               </Route>
+
               <Route path="projects" element={<ProjectsList />} />
+              <Route path="today" element={<TodayTasks />} />
               <Route path="labels" element={<LabelsList />} />
               <Route path="*" element={<Page404 />} />
             </Route>

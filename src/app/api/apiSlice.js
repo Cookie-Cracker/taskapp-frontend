@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { api, } from '../constants/env'
-import { logout, setCredentials } from '../features/auth/authSlice'
+import { setCredentials } from '../features/auth/authSlice'
 import { store_keys } from '../constants/env'
 const _baseUrl = process.env.NODE_ENV === 'production'
     ? api.url_hosted

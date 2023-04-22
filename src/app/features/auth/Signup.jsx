@@ -2,31 +2,69 @@ import {
   Box,
   Container,
   FormControl,
-  FormLabel,
   Input,
   Stack,
   Text,
-  HStack,
   Button,
   Link,
   Divider,
   Flex,
   Image,
+  FormErrorMessage,
 } from '@chakra-ui/react';
-import React from 'react';
-import { Form } from 'react-router-dom';
-import { css } from '@emotion/react';
+import { useState, useEffect, useRef } from 'react';
+
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import ckeck_logo from '../../../assets/img/logo.png';
-import signup from '../../../assets/img/signup.png';
-const inputStyles = css`
-  input {
-    background-color: whiteAlpha;
-    -webkit-background-color: white; /* add -webkit prefix */
-  }
-`;
+import { useSignupMutation } from './authApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const eRef = useRef();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [apiError, setApiError] = useState(null);
+  const navigate = useNavigate();
+
+  const [signUp, { isLoading, isSuccess, isError, error }] =
+    useSignupMutation();
+
+  const handleEmailChange = event => {
+    setEmail(event.target.value);
+    setEmailError(false);
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
+    setPasswordError(false);
+  };
+  useEffect(() => {
+    eRef.current.focus();
+  }, []);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!email) {
+      setEmailError(true);
+    }
+    if (!password) {
+      setPasswordError(true);
+    }
+    if (email && password) {
+      try {
+        const res = await signUp({ email, password }).unwrap();
+        navigate('/auth/login');
+      } catch (error) {
+        console.log(error);
+        error?.data
+          ? setApiError(error.data.error)
+          : setApiError('no server response');
+      }
+    }
+  };
+
   return (
     <>
       <Stack
@@ -49,24 +87,12 @@ const Signup = () => {
         </Text>
       </Stack>
       <Stack
-        minH={'100vh'}
+        minH={'85vh'}
         direction={{ base: 'column', md: 'row' }}
         align={'center'}
         justify={'center'}
-        padding={{ base: '4' }}
+        padding={{ base: '4', md: '20' }}
       >
-        <Flex flex={1} my={5}>
-          <Box position={'relative'} align={'center'}>
-            <Image
-              alt={'Login Image'}
-              maxW={{ md: '50%' }}
-              display={{ base: 'none', md: 'block' }}
-              objectFit={'cover'}
-              src={signup}
-              borderRadius="2xl"
-            />
-          </Box>
-        </Flex>
         <Container padding={{ base: 4, md: 8 }}>
           <Text fontSize={'4xl'} fontWeight={'bold'}>
             Sign Up
@@ -89,61 +115,94 @@ const Signup = () => {
           </Stack>
 
           <Stack>
-            <Stack spacing={2}>
-              <Box borderRadius={'5px'} border={'1px solid black'} p={2}>
-                <Text fontSize={'smaller'} fontWeight={'hairline'} ps={4}>
-                  Email
+            <form onSubmit={handleSubmit}>
+              {apiError && (
+                <Text color="red.500" fontSize="sm">
+                  {apiError}
                 </Text>
-                <FormControl>
-                  <Input
-                    type={'email'}
-                    border={'transparent'}
-                    placeholder={'Enter your email...'}
-                  />
-                </FormControl>
-              </Box>
-              <Box borderRadius={'5px'} border={'1px solid black'} p={2}>
-                <Text fontSize={'smaller'} fontWeight={'hairline'} ps={4}>
-                  Password
-                </Text>
-                <FormControl colorScheme={'whiteAlpha'}>
-                  <Input
-                    type={'password'}
-                    border={'transparent'}
-                    placeholder={'Enter your password...'}
-                  />
-                </FormControl>
-              </Box>
-              <Button>Log in</Button>
-              {/* <Text
-                  as={Link}
-                  fontSize={'smaller'}
-                  fontWeight={'hairline'}
-                  textDecoration="underline"
-                >
-                  Forgot Password?
-                </Text> */}
-              <Text fontSize={'small'} fontWeight={'normal'}>
-                By continuing with Google, Facebook, or Email, you agree to Mine
-                <br />
-                <Link textDecoration="underline" pr={1}>
-                  Terms of Service
-                </Link>
-                and
-                <Link textDecoration="underline"> Privacy Policy</Link>.
-              </Text>
-              <Divider />
-              <Box textAlign={'center'}>
-                <Text fontSize={'small'}>
-                  Already signed up?{' '}
-                  <Link pl={1} textDecoration="underline" href={'/auth/login'}>
-                    Go to login
+              )}
+              <Stack spacing={2}>
+                <Box borderRadius={'5px'} border={'1px solid black'} p={2}>
+                  <Text fontSize={'smaller'} fontWeight={'hairline'} ps={4}>
+                    Email
+                  </Text>
+                  <FormControl isInvalid={emailError}>
+                    <Input
+                      type={'email'}
+                      border={'transparent'}
+                      placeholder={'Enter your email...'}
+                      value={email}
+                      onChange={handleEmailChange}
+                      ref={eRef}
+                    />
+                    {emailError && (
+                      <FormErrorMessage>Email is required.</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </Box>
+                <Box borderRadius={'5px'} border={'1px solid black'} p={2}>
+                  <Text fontSize={'smaller'} fontWeight={'hairline'} ps={4}>
+                    Password
+                  </Text>
+                  <FormControl
+                    colorScheme={'whiteAlpha'}
+                    isInvalid={passwordError}
+                  >
+                    <Input
+                      type={'password'}
+                      border={'transparent'}
+                      placeholder={'Enter your password...'}
+                      value={password}
+                      onChange={handlePasswordChange}
+                    />
+                    {passwordError && (
+                      <FormErrorMessage>Password is required.</FormErrorMessage>
+                    )}
+                  </FormControl>
+                </Box>
+                <Button type={'submit'}>Register</Button>
+
+                <Text fontSize={'small'} fontWeight={'normal'}>
+                  By continuing with Google, Facebook, or Email, you agree to
+                  Mine
+                  <br />
+                  <Link textDecoration="underline" pr={1}>
+                    Terms of Service
                   </Link>
+                  and
+                  <Link textDecoration="underline"> Privacy Policy</Link>.
                 </Text>
-              </Box>
-            </Stack>
+                <Divider />
+                <Box textAlign={'center'}>
+                  <Text fontSize={'small'}>
+                    Already signed up?{' '}
+                    <Link
+                      pl={1}
+                      textDecoration="underline"
+                      href={'/auth/login'}
+                    >
+                      Go to login
+                    </Link>
+                  </Text>
+                </Box>
+              </Stack>
+            </form>
           </Stack>
         </Container>
+        <Flex flex={1} my={5} display={{ base: 'none', md: 'block' }}>
+          <Box position={'relative'} align={'center'}>
+            <Image
+              alt={'Login Image'}
+              maxW={{ md: '50%' }}
+              display={{ base: 'none', md: 'block' }}
+              objectFit={'cover'}
+              src={
+                'https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'
+              }
+              borderRadius="2xl"
+            />
+          </Box>
+        </Flex>
       </Stack>
     </>
   );

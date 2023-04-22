@@ -8,8 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const InboxMenuItem = ({ item }) => {
-  const { label, icon } = item;
+const InboxMenuItem = ({ item, stats }) => {
+  const { label, icon, path } = item;
   const link = (
     <Box
       display="flex"
@@ -24,17 +24,18 @@ const InboxMenuItem = ({ item }) => {
         display="flex"
         as={Link}
         gap={1}
-        to={'/app/labels'}
+        to={item.path}
         alignItems="center"
         // justifyContent="center"
         w="full"
         _hover={{ textDecoration: 'none' }}
+        href="/app/today"
       >
         <ListIcon as={icon} fontSize={22} m={0} mr={2} />
         <Text>{label}</Text>
       </LinkChakra>
       <Badge borderRadius={'full'} w={6} textAlign="center" variant={'nav'}>
-        {'1'}
+        {item.type === 'today' ? stats.count_today_tasks : ''}
       </Badge>
     </Box>
   );

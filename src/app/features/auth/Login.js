@@ -52,10 +52,13 @@ const Login = () => {
     }
     if (email && password) {
       try {
-        const { access_token } = await login({
+        const { access_token, user_inbox_id } = await login({
           email,
           password,
         }).unwrap();
+
+        console.log('inbox_id', user_inbox_id)
+        localStorage.setItem('user_inbox_id', user_inbox_id)
 
         dispatch(setCredentials({ access_token }));
         navigate('/app/projects/')
@@ -95,11 +98,11 @@ const Login = () => {
         </Text>
       </Stack>
       <Stack
-        minH={'100vh'}
+        minH={'85vh'}
         direction={{ base: 'column', md: 'row' }}
         align={'center'}
         justify={'center'}
-        padding={{ base: '4' }}
+        padding={{ base: '4', md: "20" }}
       >
         <Container padding={{ base: 4, md: 8 }}>
           <Text fontSize={'4xl'} fontWeight={'bold'}>
@@ -208,7 +211,7 @@ const Login = () => {
           <Box position={'relative'} align={'center'}>
             <Image
               alt={'Login Image'}
-              maxW={{ md: '70%' }}
+              maxW={{ md: '50%' }}
               display={{ base: 'none', md: 'block' }}
               objectFit={'cover'}
               src={

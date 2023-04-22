@@ -1,6 +1,6 @@
 import { HStack, Tag, TagLabel, TagLeftIcon } from '@chakra-ui/react';
 import React from 'react';
-import { FiTag } from 'react-icons/fi';
+import { HiTag } from 'react-icons/hi';
 
 const TaskLabels = ({ labels }) => {
   console.log('label', labels);
@@ -9,13 +9,16 @@ const TaskLabels = ({ labels }) => {
       {labels.map((label, index) => (
         <Tag
           size={'sm'}
-          key={`${index}-${label}`}
+          key={`${index}-${label._id}`}
           borderRadius={'full'}
           variant={'subtle'}
-          colorScheme={label.color}
+          // colorScheme={label.color}
+          bg={'transparent'}
         >
-          <TagLeftIcon as={FiTag} />
-          <TagLabel>{label}</TagLabel>
+          <TagLeftIcon as={HiTag} color={label.color} />
+          <TagLabel fontSize={'small'} fontWeight={'hairline'}>
+            {label.name}
+          </TagLabel>
         </Tag>
       ))}
     </HStack>

@@ -12,18 +12,73 @@ import {
   List,
   ListItem,
   useColorModeValue,
+  Spinner,
 } from '@chakra-ui/react';
 
-import { NAV_LINKS } from '../common/Navlinks';
-import MenuNavItem from '../common/MenuINavItem';
 import InboxSection from '../common/InboxSection';
 import MenuSectionHeader from '../common/MenuSectionHeader';
 import UserProjectsSection from '../common/UserProjectsSection';
 import { colors } from '../../../theme/colors';
+import { useGetProjectsTaskCountQuery } from '../../features/projects/projectsApiSlice';
+function filterInboxProjects(projects) {
+  let userProjects = {};
+  Object.entries(projects.entities).forEach(([id, project]) => {
+    if (!project.isInboxProject) {
+      userProjects[id] = project;
+    }
+  });
+  return {
+    ids: projects.ids.filter(id => userProjects[id]),
+    entities: userProjects,
+  };
+}
 
+function getInbox(projects) {
+  let inbox = {};
+  Object.entries(projects.entities).forEach(([id, project]) => {
+    if (project.isInboxProject) {
+      inbox[id] = project;
+    }
+  });
+  return {
+    ids: projects.ids.filter(id => inbox[id]),
+    entities: inbox,
+  };
+}
 const MobileNav = ({ onClose, isOpen }) => {
   const bg = useColorModeValue(colors.white, colors.black);
-  return (
+  const {
+    data: projects,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProjectsTaskCountQuery('projectsStatsList', {
+    pollingInterval: 50000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
+  let mobileNavContent;
+
+  if (isLoading) {
+    mobileNavContent = <Spinner />;
+  } else if (isSuccess) {
+    // console.log('projects', projects);
+    const userProyects = filterInboxProjects(projects);
+
+    const inbox = getInbox(projects);
+
+    mobileNavContent = (
+      <>
+        <InboxSection inbox={inbox} onClose={onClose} />
+        <MenuSectionHeader name={'Projects'} />
+        <UserProjectsSection projects={userProyects} onClose={onClose} />
+      </>
+    );
+  }
+
+  let mobileNav;
+  mobileNav = (
     <Drawer onClose={onClose} isOpen={isOpen} placement={'left'}>
       <DrawerOverlay />
       <DrawerContent bg={bg}>
@@ -32,16 +87,7 @@ const MobileNav = ({ onClose, isOpen }) => {
         <DrawerBody>
           <Stack>
             <List w="full" my={8}>
-              {/* {NAV_LINKS.map((item, index) => (
-                <>
-                  <ListItem key={`${index}${item.label}`}>
-                    <MenuNavItem item={item} />
-                  </ListItem>
-                </>
-              ))} */}
-              <InboxSection />
-              <MenuSectionHeader name={'Projects'} />
-              <UserProjectsSection onClose={onClose} />
+              {mobileNavContent}
             </List>
           </Stack>
         </DrawerBody>
@@ -54,6 +100,8 @@ const MobileNav = ({ onClose, isOpen }) => {
       </DrawerContent>
     </Drawer>
   );
+
+  return mobileNav;
 };
 
 export default MobileNav;
